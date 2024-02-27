@@ -58,7 +58,7 @@ export async function createInvoice(prevState: State, formData: FormData) {
 
   try {
     await sql`
-    INSERT INTO invoices (customer_id, amount, status, date)
+    INSERT INTO starter_invoices (customer_id, amount, status, date)
     VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
   `;
   } catch (error) {
@@ -99,7 +99,7 @@ export async function updateInvoice(
 
   try {
     await sql`
-      UPDATE invoices
+      UPDATE starter_invoices
       SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
       WHERE id = ${id}
     `;
@@ -114,7 +114,7 @@ export async function updateInvoice(
 
 export async function deleteInvoice(id: string) {
   try {
-    await sql`DELETE FROM invoices WHERE id = ${id}`;
+    await sql`DELETE FROM starter_invoices WHERE id = ${id}`;
     revalidatePath('/dashboard/invoices');
     return { message: 'Invoice Deleted.' };
   } catch (error) {
