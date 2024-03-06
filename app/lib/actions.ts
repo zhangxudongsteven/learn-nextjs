@@ -1,11 +1,16 @@
 'use server';
 
 import { z } from 'zod';
-import { sql } from '@vercel/postgres';
+import { Pool } from 'pg';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
+
+// Create a new pool instance
+const pool = new Pool({
+  connectionString: process.env.POSTGRES_URL,
+});
 
 const FormSchema = z.object({
   id: z.string(),
@@ -57,14 +62,14 @@ export async function createInvoice(prevState: State, formData: FormData) {
   // console.log({ customerId, amount, status })
 
   try {
-    await sql`
-    INSERT INTO starter_invoices (customer_id, amount, status, date)
-    VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
-  `;
+    await pool.query(`
+      INSERT INTO starter_invoices (customer_id, amount, status, date)
+      VALUES ($1, $2, $3, $4)
+    `, [customerId, amountInCents, status, date]);
   } catch (error) {
     return {
       message: 'Database Error: Failed to Create Invoice.',
-    }
+    };
   }
 
   revalidatePath('/dashboard/invoices');
@@ -98,11 +103,11 @@ export async function updateInvoice(
   const amountInCents = amount * 100;
 
   try {
-    await sql`
+    await pool.query(`
       UPDATE starter_invoices
-      SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
-      WHERE id = ${id}
-    `;
+      SET customer_id = $1, amount = $2, status = $3
+      WHERE id = $4
+    `, [customerId, amountInCents, status, id]);
   } catch (error) {
     return { message: 'Database Error: Failed to Update Invoice.' };
   }
@@ -114,7 +119,7 @@ export async function updateInvoice(
 
 export async function deleteInvoice(id: string) {
   try {
-    await sql`DELETE FROM starter_invoices WHERE id = ${id}`;
+    await pool.query(`DELETE FROM starter_invoices WHERE id = $1`, [id]);
     revalidatePath('/dashboard/invoices');
     return { message: 'Invoice Deleted.' };
   } catch (error) {
