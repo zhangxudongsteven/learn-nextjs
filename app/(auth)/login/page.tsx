@@ -1,22 +1,29 @@
-import AcmeLogo from '@/app/ui/svg/AcmeLogo';
+import Link from 'next/link'
+
+import { AuthLayout } from '@/app/ui/auth/AuthLayout'
+
 import LoginForm from '@/app/ui/login-form';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Login',
-};
+  title: 'Sign In',
+}
 
 export default function LoginPage() {
   return (
-    <main className="flex items-center justify-center md:h-screen">
-      <div className="relative mx-auto flex w-full max-w-[400px] flex-col space-y-2.5 p-4 md:-mt-32">
-        <div className="flex h-20 w-full items-end rounded-lg bg-blue-500 p-3 md:h-36">
-          <div className="w-32 text-white md:w-36">
-            <AcmeLogo />
-          </div>
-        </div>
+      <AuthLayout
+          title="欢迎回来，请登录"
+          subtitle={
+            <>
+              还没有账号？现在{' '}
+              <Link href="/register" className="text-cyan-600">
+                注册
+              </Link>{' '}
+              来联系我们。
+            </>
+          }
+      >
         <LoginForm />
-      </div>
-    </main>
+      </AuthLayout>
   );
 }

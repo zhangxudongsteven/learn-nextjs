@@ -1,5 +1,6 @@
 import React from "react";
-import { CirclesBackground } from '@/components/CirclesBackground'
+import { CirclesBackground } from '@/app/ui/common/CirclesBackground'
+
 // import Link from 'next/link'
 // import { Logo } from '@/components/Logo'
 
