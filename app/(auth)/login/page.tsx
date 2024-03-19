@@ -15,11 +15,12 @@ export default function LoginPage() {
           title="欢迎回来，请登录"
           subtitle={
             <>
-              还没有账号？现在{' '}
-              <Link href="/register" className="text-cyan-600">
-                注册
-              </Link>{' '}
-              来联系我们。
+              {/*还没有账号？现在{' '}*/}
+              {/*<Link href="/register" className="text-cyan-600">*/}
+              {/*  注册*/}
+              {/*</Link>{' '}*/}
+              {/*来联系我们。*/}
+              本网站暂不支持注册，请联系商务开通账号体验。
             </>
           }
       >

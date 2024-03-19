@@ -118,7 +118,7 @@ export function Header() {
                           </div>
                           <div className="mt-8 flex flex-col gap-4">
                             <Button href="/login" variant="outline">
-                              登录 / 注册
+                              登录
                             </Button>
                           </div>
                         </Popover.Panel>
@@ -129,7 +129,7 @@ export function Header() {
               )}
             </Popover>
             <Button href="/login" variant="outline" className="hidden md:block">
-              登录 / 注册
+              登录
             </Button>
           </div>
         </Container>
